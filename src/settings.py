@@ -26,7 +26,7 @@ SECRET_KEY_TEST = '*ph&^%*w2uy#vf=a#v2is=bhogj292$&)m62=!9s1c*o(k!job'
 SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY_TEST)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = []
 
