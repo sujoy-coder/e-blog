@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+    <div>
+        <h2 class="text-danger"><u>Profile</u></h2>
+    </div>
+    <div class="ml-auto">
+        <button class="text-right btn btn-success" onclick="window.location.href='/profile/new-post/'">New Post</button>
+    </div>
+</div>
+
+<!-- info -->
+<div class="row">
+    <div class="col-md-2"> 
+        <label for="staticEmail" class="col-form-label text-info" style="font-size: 18px;">Username </label>
+    </div>
+    <div class="col-md">
+        <input type="text" readonly class="form-control-plaintext" value="{{user.username}}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2"> 
+        <label for="staticEmail" class="col-form-label text-info" style="font-size: 18px;">Your Email </label>
+    </div>
+    <div class="col-md">
+        <input type="text" readonly class="form-control-plaintext" value="{{user.email}}">
+    </div>
+</div>
+<hr>
+
+<h2 class="text-muted text-center my-2 py-2">** <span style="font-family: 'Brush Script MT', cursive;">My Posts</span> **</h2>
+<div>
+    {% if posts %}
+        {% for post in posts%}
+        <div class="mb-4">
+        <h3>
+            <img src="https://ui-avatars.com/api/?name={{post.user.username}}&background=FFA500&rounded=true" alt="profile-pic" height="50px" width="50px"> 
+            {{ post.title }}
+        </h3>
+        <span style="font-size: 12px;" class="text-capitalize text-muted">Posted on {{ post.date_posted|date:"M d, Y" }} | by {{ post.user.username }}</span>
+        <p>
+            {{ post.desc }}
+        </p>
+        <button class="btn btn-primary mt-0" onclick="return window.location.href='/post/{{post.id}}/'">Comment</button>
+        {% if post.comment_count %}
+            <span class="badge badge-danger">{{post.comment_count}}</span>
+        {% endif %}
+        </div>
+        <hr>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+{% endblock content %}

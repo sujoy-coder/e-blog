@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="text-info pb-2 text-center">Register Now</h3>
+ 
+<div class="card shadow p-3 mb-5 bg-white rounded">
+    <form method="POST" action="{% url 'register' %}" onsubmit="return validate_register()">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="font-weight-bold ml-1">Email Address</label>
+            {% if email_value %}
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="{{email_value}}" required>
+            {% else %}
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+            {% endif %}
+            <small id="email-error" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold ml-1">Password</label>
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" required>
+            <small id="pass-error" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold ml-1">Confirm Password</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Password" required>
+            <small id="conf-pass-error" class="form-text text-danger"></small>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Register Now</button>
+        <span class="m-2">Already Have an Account ? <a href="{% url 'login' %}">Login</a></span>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    function validate_register(){
+        let email = document.getElementById('email');
+        let pass1 = document.getElementById('password1');
+        let pass2 = document.getElementById('password2');
+        let message = document.getElementById('pass-error');
+        let message1 = document.getElementById('conf-pass-error');
+        let email_msg = document.getElementById('email-error');
+
+        const pattern = /^([A-Za-z0-9_\-\.]{4,50})+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if(pattern.test(email.value)){
+            email_msg.style.display = "none";
+            if((pass1.value.length > 5) && (pass1.value.length < 21)){
+                message.style.display = "none";
+                if(pass1.value === pass2.value){
+                    message1.style.display = "none";
+                    return true;
+                }
+                else{
+                    message1.focus()
+                    message1.innerText = "Both the password should be matched"
+                    return false;
+                }
+            }
+            else{
+                pass1.focus()
+                message.innerText = "Password should contain between 6 to 20 characters";
+                return false;
+            }
+        }
+        else{
+            email_msg.focus()
+            email_msg.innerText = "Please enter a valid email"
+            return false;
+        }
+    } 
+</script>
+{% endblock scripts %}

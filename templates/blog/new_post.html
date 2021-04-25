@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-info">Create A New Post</h1>
+
+<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+    <form method="POST" action="{% url 'new_post' %}" onsubmit="return validate_post()">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="font-weight-bold ml-1">Title</label>
+            <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp" placeholder="Add some title" required>
+            <small id="title-error" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold ml-1">Description</label>
+            <textarea class="form-control" id="desc" name="desc" rows="5" placeholder="Enter description" required></textarea>
+            <small id="desc-error" class="form-text text-danger"></small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancle</button>
+    </form>
+</div>
+
+{% endblock content%}
+
+
+{% block scripts %}
+<script>
+    function validate_post(){
+        let title = document.getElementById('title');
+        let desc = document.getElementById('desc');
+        let msg_title = document.getElementById('title-error');
+        let msg_desc = document.getElementById('desc-error');
+
+        // console.log(title.value);
+        // console.log(desc.value);
+
+        if((title.value.length >= 10) && (title.value.length <= 200)){
+            msg_title.style.display = "none";
+            if((desc.value.length >= 20) && (desc.value.length <= 1000)){
+                msg_desc.style.display = "none";
+                return true;
+            }
+            else{
+                msg_desc.innerText = "Description should contain between 20 to 1000 characters"
+                return false;
+            }
+        }
+        else{
+            msg_title.innerText = "Title should contain between 10 to 200 characters";
+            return false;
+        }
+
+    }
+</script>
+{% endblock scripts %}

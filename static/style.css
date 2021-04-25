@@ -1,0 +1,27 @@
+body {
+    background: #fafafa;
+}
+
+.badge {
+    position: relative;
+    top: -20px;
+    left: -25px;
+    font-size: 15px;
+    border: 1px solid #000000;
+    border-radius: 50%;
+}
+
+.alert-error {
+    background-color: #d9534f;
+    color: rgb(36, 31, 31);
+}
+
+.dark-hr {
+    border: 0.5px dashed black;
+}
+
+.fa-linkedin {
+    background: #007bb5;
+    color: white;
+    padding: 3px 3px 3px 3px;
+}

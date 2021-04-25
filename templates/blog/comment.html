@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+    <h3 class="text-capitalize">
+        <img src="https://ui-avatars.com/api/?name={{post.user.username}}&background=FFA500&rounded=true" alt="profile-pic" height="50px" width="50px"> 
+        {{ post.title }}
+    </h3>
+    <p class="text-muted">Posted On : {{ post.date_posted|date:"M d, Y  H:i:s" }}</p>
+    <p class="text-capitalize text-muted">Posted By : {{ post.user.username }}</p>
+    <!-- <span style="font-size: 12px;" class="text-muted">Posted on {{ post.date_posted|date:"M d, Y" }} | by {{ post.user.username }}</span> -->
+    <p style="font-size: 18px;">
+        {{ post.desc }}
+    </p>
+</div>
+
+<form method="POST" action="{% url 'comment' post_id=post.id %}" onsubmit="return validate_comment()">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="message-text" class="col-form-label font-weight-bold">Message :</label>
+        <textarea class="form-control" name="comment_msg" id="comment-text" rows="3"></textarea>
+        <small id="comment-error" class="form-text text-danger"></small>
+    </div>
+    <div class="text-right">
+        <button type="button" onclick="location.reload()" class="btn btn-secondary">Clear</button>
+        <button type="submit" class="btn btn-primary">Comment</button>
+    </div>
+</form>
+<hr>
+
+<h4 class="text-muted my-2 py-2">Comments...</h4>
+
+<!-- comments lists -->
+<div id="comments">
+    {% if comments %}
+    <ul class="list-group list-group-flush">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <img src="https://ui-avatars.com/api/?name={{comment.user.username}}&background=FFA500&rounded=true" alt="profile-pic" height="25px" width="25px"> 
+                <span class="text-muted"><span class="text-capitalize">{{comment.user.username}}</span> on {{ comment.date_commented|date:"M d, Y  H:i:s" }}</span>
+                <p class="ml-4">
+                    {{ comment.msg }}
+                </p>
+            </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+</div>
+
+{% endblock content%}
+
+
+
+{% block scripts %}
+<script>
+    function validate_comment(){
+        let comment = document.getElementById('comment-text');
+        let msg_error = document.getElementById('comment-error');
+
+        if((comment.value.length >= 3) && (comment.value.length <= 150)){
+            msg_error.style.display = "none";
+            return true;
+        }
+        else{
+            msg_error.innerText = "Comments should contain between 3 to 150 characters";
+            return false;
+        }
+
+    }
+</script>
+{% endblock scripts %}
