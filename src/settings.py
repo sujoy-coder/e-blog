@@ -33,7 +33,7 @@ else:
     DEBUG = False
     
 
-ALLOWED_HOSTS = ['https://eblog-site.herokuapp.com/']
+ALLOWED_HOSTS = []
 
 
 # Application definition
